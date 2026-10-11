@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Currency Converter</title>
+  <link rel="stylesheet" href="../project.css">
+  <script src="../theme.js"></script>
+</head>
+<body>
+  <main>
+    <a href="../../index.html#projects">&larr; Back to portfolio</a>
+    <h1>Currency Converter</h1>
+    <p class="muted">Rates are entered by you (how many tenge one unit costs), so the tool works offline and never shows outdated data.</p>
+
+    <form id="conv" novalidate>
+      <div class="row">
+        <div class="field"><label for="amount">Amount</label><input id="amount" type="number" min="0" step="any" value="100"></div>
+        <div class="field">
+          <label for="from">Convert from</label>
+          <select id="from"><option value="KZT">KZT – Tenge</option><option value="USD" selected>USD – US dollar</option><option value="EUR">EUR – Euro</option><option value="CNY">CNY – Chinese yuan</option></select>
+        </div>
+        <div class="field">
+          <label for="to">Convert to</label>
+          <select id="to"><option value="KZT" selected>KZT – Tenge</option><option value="USD">USD – US dollar</option><option value="EUR">EUR – Euro</option><option value="CNY">CNY – Chinese yuan</option></select>
+        </div>
+      </div>
+
+      <h2 style="font-size:1.25rem">Rates (₸ per 1 unit)</h2>
+      <div class="row">
+        <div class="field"><label for="r-USD">USD</label><input id="r-USD" type="number" min="0" step="any" value="500"></div>
+        <div class="field"><label for="r-EUR">EUR</label><input id="r-EUR" type="number" min="0" step="any" value="550"></div>
+        <div class="field"><label for="r-CNY">CNY</label><input id="r-CNY" type="number" min="0" step="any" value="70"></div>
+      </div>
+      <button type="submit">Convert</button>
+    </form>
+
+    <p id="error" class="error" role="alert"></p>
+    <div class="result" id="result" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script>
+    var form = document.getElementById("conv");
+    var result = document.getElementById("result");
+    var error = document.getElementById("error");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var fields = ["amount", "r-USD", "r-EUR", "r-CNY"];
+      for (var i = 0; i < fields.length; i++) {
+        var el = document.getElementById(fields[i]);
+        if (el.value.trim() === "" || isNaN(Number(el.value)) || Number(el.value) <= 0) {
+          error.textContent = "Please enter a number greater than zero in every field.";
+          result.hidden = true;
+          el.focus();
+          return;
+        }
+      }
+      error.textContent = "";
+      var rates = {
+        KZT: 1,
+        USD: Number(document.getElementById("r-USD").value),
+        EUR: Number(document.getElementById("r-EUR").value),
+        CNY: Number(document.getElementById("r-CNY").value)
+      };
+      var amount = Number(document.getElementById("amount").value);
+      var from = document.getElementById("from").value;
+      var to = document.getElementById("to").value;
+      var out = amount * rates[from] / rates[to];
+      result.hidden = false;
+      result.innerHTML = '<p class="big">' + out.toLocaleString("en-US", { maximumFractionDigits: 2 }) + " " + to + "</p>" +
+        "<p>" + amount.toLocaleString("en-US") + " " + from + " = " + out.toLocaleString("en-US", { maximumFractionDigits: 2 }) + " " + to + "</p>";
+    });
+  </script>
+</body>
+</html>

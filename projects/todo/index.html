@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task List</title>
+  <link rel="stylesheet" href="../project.css">
+  <script src="../theme.js"></script>
+  <style>
+    ul { list-style: none; padding: 0; margin: 24px 0 0; }
+    li { display: flex; align-items: center; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    li label { flex: 1; margin: 0; font-weight: 400; display: flex; align-items: center; gap: 8px; }
+    li input[type="checkbox"] { width: 20px; height: 20px; padding: 0; }
+    li.done span { text-decoration: line-through; color: var(--muted); }
+    .del { background: transparent; color: var(--danger); border-color: var(--border); padding: 4px 16px; font-size: .875rem; }
+    .add { display: flex; gap: 16px; }
+    .add input { flex: 1; }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="../../index.html#projects">&larr; Back to portfolio</a>
+    <h1>Task List</h1>
+    <p class="muted">Add tasks, tick them off, delete them. Your list is saved in this browser.</p>
+
+    <form id="add-form" class="add" novalidate>
+      <label class="sr" for="task" style="position:absolute;left:-9999px">New task</label>
+      <input id="task" type="text" placeholder="e.g. Order new stock" autocomplete="off">
+      <button type="submit">Add</button>
+    </form>
+    <p id="error" class="error" role="alert"></p>
+    <ul id="list"></ul>
+    <p id="empty" class="muted">No tasks yet. Add your first one above.</p>
+  </main>
+
+  <script>
+    var tasks = [];
+    try { tasks = JSON.parse(localStorage.getItem("tasks") || "[]"); } catch (e) { tasks = []; }
+
+    var list = document.getElementById("list");
+    var empty = document.getElementById("empty");
+    var input = document.getElementById("task");
+    var error = document.getElementById("error");
+
+    function save() { try { localStorage.setItem("tasks", JSON.stringify(tasks)); } catch (e) {} }
+
+    function render() {
+      list.innerHTML = "";
+      empty.hidden = tasks.length > 0;
+      tasks.forEach(function (t, i) {
+        var li = document.createElement("li");
+        if (t.done) li.className = "done";
+
+        var label = document.createElement("label");
+        var box = document.createElement("input");
+        box.type = "checkbox";
+        box.checked = t.done;
+        box.addEventListener("change", function () { tasks[i].done = box.checked; save(); render(); });
+        var text = document.createElement("span");
+        text.textContent = t.text;
+        label.appendChild(box);
+        label.appendChild(text);
+
+        var del = document.createElement("button");
+        del.type = "button";
+        del.className = "del";
+        del.textContent = "Delete";
+        del.setAttribute("aria-label", "Delete task: " + t.text);
+        del.addEventListener("click", function () { tasks.splice(i, 1); save(); render(); });
+
+        li.appendChild(label);
+        li.appendChild(del);
+        list.appendChild(li);
+      });
+    }
+
+    document.getElementById("add-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var value = input.value.trim();
+      if (value === "") { error.textContent = "Please type a task before adding it."; input.focus(); return; }
+      error.textContent = "";
+      tasks.push({ text: value, done: false });
+      input.value = "";
+      save();
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kaspi Profit Calculator</title>
+  <link rel="stylesheet" href="../project.css">
+  <script src="../theme.js"></script>
+</head>
+<body>
+  <main>
+    <a href="../../index.html#projects">&larr; Back to portfolio</a>
+    <h1>Kaspi Profit Calculator</h1>
+    <p class="muted">Enter the numbers for one item (in tenge) to see your real profit.</p>
+
+    <form id="calc" novalidate>
+      <div class="row">
+        <div class="field"><label for="buy">Purchase price (₸)</label><input id="buy" type="number" min="0" step="any" value="5000"></div>
+        <div class="field"><label for="sell">Selling price (₸)</label><input id="sell" type="number" min="0" step="any" value="8000"></div>
+        <div class="field"><label for="commission">Kaspi commission (%)</label><input id="commission" type="number" min="0" max="100" step="any" value="10"></div>
+        <div class="field"><label for="delivery">Delivery cost (₸)</label><input id="delivery" type="number" min="0" step="any" value="500"></div>
+        <div class="field"><label for="tax">Tax (% of sale)</label><input id="tax" type="number" min="0" max="100" step="any" value="4"></div>
+      </div>
+      <button type="submit">Calculate</button>
+    </form>
+
+    <p id="error" class="error" role="alert"></p>
+    <div class="result" id="result" role="status" aria-live="polite" hidden></div>
+  </main>
+
+  <script>
+    var form = document.getElementById("calc");
+    var result = document.getElementById("result");
+    var error = document.getElementById("error");
+    var fmt = function (n) { return Math.round(n).toLocaleString("ru-RU") + " ₸"; };
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var ids = ["buy", "sell", "commission", "delivery", "tax"];
+      var v = {};
+      for (var i = 0; i < ids.length; i++) {
+        var el = document.getElementById(ids[i]);
+        if (el.value.trim() === "" || isNaN(Number(el.value)) || Number(el.value) < 0) {
+          error.textContent = "Please fill in every field with a number that is not negative.";
+          result.hidden = true;
+          el.focus();
+          return;
+        }
+        v[ids[i]] = Number(el.value);
+      }
+      error.textContent = "";
+      var commission = v.sell * v.commission / 100;
+      var tax = v.sell * v.tax / 100;
+      var profit = v.sell - v.buy - commission - v.delivery - tax;
+      var margin = v.sell > 0 ? profit / v.sell * 100 : 0;
+      var cls = profit >= 0 ? "good" : "bad";
+      result.hidden = false;
+      result.innerHTML =
+        "<p>Commission: " + fmt(commission) + "</p>" +
+        "<p>Tax: " + fmt(tax) + "</p>" +
+        '<p class="big ' + cls + '">Profit: ' + fmt(profit) + "</p>" +
+        "<p>Margin: " + margin.toFixed(1) + "%</p>";
+    });
+  </script>
+</body>
+</html>
