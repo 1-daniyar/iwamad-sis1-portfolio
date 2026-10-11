@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daniyar Ospanov – Portfolio</title>
+  <meta name="description" content="Portfolio of Daniyar Ospanov, IT student at IITU and online store owner on Kaspi.kz.">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    /* Apply saved theme before paint to avoid a flash */
+    try {
+      var t = localStorage.getItem("theme");
+      if (!t) t = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", t);
+    } catch (e) { document.documentElement.setAttribute("data-theme", "light"); }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#about">Daniyar Ospanov</a>
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a href="#about">About Me</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button id="theme-toggle" class="btn btn-ghost" type="button" aria-pressed="false">
+        <span id="theme-label">Dark mode</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <img class="avatar" src="assets/avatar.svg" width="200" height="200" alt="Avatar with the initials DO on a blue background">
+        <div>
+          <h1 id="about-title">About Me</h1>
+          <p class="lead">Hi, I'm Daniyar Ospanov – an Information Technology student and a young entrepreneur from Kazakhstan.</p>
+          <p>I study at the International Information Technology University (IITU) in Almaty and run my own online store, "The Glory", on Kaspi.kz. Running a real business taught me to care about numbers, customers and simple tools that save time.</p>
+          <p>Now I'm learning web development. I speak Russian, Kazakh, Chinese and English, so I enjoy building interfaces that are easy to use for different people.</p>
+          <ul class="chips" aria-label="Skills">
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>JavaScript</li>
+            <li>E-commerce</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section section-alt" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 id="projects-title">Projects</h2>
+        <p class="section-intro">Small tools built with plain HTML, CSS and JavaScript. Each one opens as a working page.</p>
+        <div class="cards">
+          <article class="card">
+            <h3>Kaspi Profit Calculator</h3>
+            <p>Calculates the real profit per item from purchase price, selling price, Kaspi commission, delivery and tax. Born from my own store.</p>
+            <a class="btn" href="projects/profit-calculator/index.html">Open project<span class="visually-hidden">: Kaspi Profit Calculator</span></a>
+          </article>
+          <article class="card">
+            <h3>Task List</h3>
+            <p>A to-do list where you can add, complete and delete tasks. Tasks are saved in the browser, so they stay after a reload.</p>
+            <a class="btn" href="projects/todo/index.html">Open project<span class="visually-hidden">: Task List</span></a>
+          </article>
+          <article class="card">
+            <h3>Currency Converter</h3>
+            <p>Converts between tenge (KZT), US dollars, euros and Chinese yuan. You enter the rates yourself, so it works offline.</p>
+            <a class="btn" href="projects/converter/index.html">Open project<span class="visually-hidden">: Currency Converter</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section" aria-labelledby="contact-title">
+      <div class="container contact-wrap">
+        <h2 id="contact-title">Contact</h2>
+        <p class="section-intro">Have a question or an idea? Fill in the form below. (Nothing is actually sent – this is a demo form.)</p>
+        <form id="contact-form" novalidate>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
+            <p class="error" id="name-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="text" inputmode="email" autocomplete="email" aria-describedby="email-error">
+            <p class="error" id="email-error" role="alert"></p>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" aria-describedby="message-error"></textarea>
+            <p class="error" id="message-error" role="alert"></p>
+          </div>
+          <button class="btn" type="submit">Send message</button>
+          <p id="form-success" class="success" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Daniyar Ospanov. Built with HTML, CSS and JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
