@@ -1,6 +1,6 @@
 # Daniyar Ospanov – Portfolio (SIS 1)
 
-**Live site:** https://YOUR-GITHUB-USERNAME.github.io/iwamad-sis1-portfolio/
+**Live site:** https://1-daniyar.github.io/iwamad-sis1-portfolio/
 
 ## About the site
 This is my personal portfolio built with plain HTML5, CSS3 and vanilla JavaScript, with no frameworks. It is one page with three sections – About Me, Projects and Contact – and a navigation menu. The Projects section links to three small working tools I built, and the Contact form validates input by itself without sending anything.
